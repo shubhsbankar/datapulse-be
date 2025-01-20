@@ -1,0 +1,13 @@
+# Specific user entry
+dn: uid=yadv,ou=user,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+cn: yadv
+sn: yadv
+uid: yadv
+gidNumber: 1000
+uidNumber: 1000
+homeDirectory: /home/office/yadv
+mail: yadv@office.com
+userPassword: {SSHA}cGFzc3dvcmQxMjM=
+description: user

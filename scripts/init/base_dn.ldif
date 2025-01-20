@@ -1,0 +1,4 @@
+# Base organizational unit under existing domain
+dn: ou=office,dc=example,dc=com
+objectClass: organizationalUnit
+ou: office
