@@ -17,7 +17,7 @@ async def get_all_dvcomppts(current_user: dict = Depends(auth_dependency)):
                     createdate, compshortname,
                     user_email, comments, version, 
                     dhname,satlnums,satlnum,satlname,satlversion
-                FROM tst1a.dvcomppt 
+                FROM tst1a.dvcomppt1 
                 ORDER BY createdate DESC
                 """
             )
@@ -40,7 +40,7 @@ async def get_all_dvcomppts(current_user: dict = Depends(auth_dependency)):
                     "satlnums" : dv[11],
                     "satlnum":dv[12],
                     "satlname": dv[13],
-                    "satlversion":float(dv[14]) if dv[14] else None
+                    "satlversion":float(dv[14]) if dv[14] else None,
 
                 }
                 dvcomppt_list.append(dvcomppt_dict)

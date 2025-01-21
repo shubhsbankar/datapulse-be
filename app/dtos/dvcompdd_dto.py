@@ -3,8 +3,8 @@ from typing import Optional, List
 from datetime import datetime
 
 
-class RdvCompDdDTO(BaseModel):
-    rdvid: int | None = None
+class DvCompDdDTO(BaseModel):
+    dvid: int | None = None
     projectshortname: str
     comptype: Optional[str]
     compname: str

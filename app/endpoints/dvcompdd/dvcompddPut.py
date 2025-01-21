@@ -1,17 +1,17 @@
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.rdvcompdd import (
+from app.endpoints.dvcompdd import (
     router,
     auth_dependency,
     get_db,
     response,
-    RdvCompDdDTO,
+    DvCompDdDTO,
 )
 
 
-@router.put("/update/{rdvid}")
-async def update_rdvcompdd(
-    rdvid: int, rdvcompdd: RdvCompDdDTO, current_user: dict = Depends(auth_dependency)
+@router.put("/update/{dvid}")
+async def update_dvcompdd(
+    dvid: int, rdvcompdd: DvCompDdDTO, current_user: dict = Depends(auth_dependency)
 ):
     try:
         if isinstance(current_user, JSONResponse):
@@ -20,15 +20,15 @@ async def update_rdvcompdd(
         with get_db() as (conn, cursor):
             # First check if record exists
             cursor.execute(
-                "SELECT rdvid FROM tst1a.rdvcompdd WHERE rdvid = %s",
-                (rdvid,),
+                "SELECT dvid FROM tst1a.dvcompdd1 WHERE dvid = %s",
+                (dvid,),
             )
             if not cursor.fetchone():
-                return response(404, "RdvCompDd not found")
+                return response(404, "DvCompDd not found")
 
             cursor.execute(
                 """
-                UPDATE tst1a.rdvcompdd SET 
+                UPDATE tst1a.dvcompdd1 SET 
                     projectshortname = %s,
                     comptype = %s,
                     compname = %s,
@@ -38,7 +38,7 @@ async def update_rdvcompdd(
                     version = %s,
                     comments = %s,
                     sqltext = %s
-                WHERE rdvid = %s
+                WHERE dvid = %s
                 """,
                 (
                     rdvcompdd.projectshortname,
@@ -50,11 +50,11 @@ async def update_rdvcompdd(
                     rdvcompdd.version,
                     rdvcompdd.comments,
                     rdvcompdd.sqltext,
-                    rdvid,
+                    dvid,
                 ),
             )
             conn.commit()
 
-            return response(200, "RdvCompDd updated successfully")
+            return response(200, "DvCompDd updated successfully")
     except Exception as e:
         return response(400, str(e))

@@ -1,12 +1,12 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.rdvcompdd import *
+from app.endpoints.dvcompdd import *
 
 
 @router.post("/create")
-async def create_rdvcompdd(
-    rdvcompdd: RdvCompDdDTO, current_user: dict = Depends(auth_dependency)
+async def create_dvcompdd(
+    rdvcompdd: DvCompDdDTO, current_user: dict = Depends(auth_dependency)
 ):
     print(rdvcompdd)
     try:
@@ -16,7 +16,7 @@ async def create_rdvcompdd(
         with get_db() as (conn, cursor):
             cursor.execute(
                 """
-                INSERT INTO tst1a.rdvcompdd (
+                INSERT INTO tst1a.dvcompdd1 (
                     projectshortname, comptype,
                     compname, compsubtype, bkfields, compshortname, version,
                     comments, sqltext, datefieldname
@@ -39,14 +39,14 @@ async def create_rdvcompdd(
             )
             conn.commit()
 
-            return response(201, "RdvCompDd created successfully")
+            return response(201, "DvCompDd created successfully")
     except Exception as e:
         return response(400, str(e))
 
 
 @router.post("/test")
-async def test_rdvcompdd(
-    rdvcompdd: RdvCompDdDTO, current_user: dict = Depends(auth_dependency)
+async def test_dvcompdd(
+    rdvcompdd: DvCompDdDTO, current_user: dict = Depends(auth_dependency)
 ):
     try:
         if isinstance(current_user, JSONResponse):

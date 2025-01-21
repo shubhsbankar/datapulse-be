@@ -26,7 +26,7 @@ from app.endpoints.tenantbkcc import router as tenantbkcc_router
 from app.endpoints.filemanagment import router as filemanagment_router
 from app.endpoints.adhoc import router as adhoc_router
 from app.endpoints.dvcompsg2 import router as dvcompsg2_router
-from app.endpoints.rdvcompdd import router as rdvcompdd_router
+from app.endpoints.dvcompdd import router as dvcompdd_router
 from app.endpoints.rdvcompft import router as rdvcompft_router
 
 import app.db as db_init
@@ -69,7 +69,7 @@ app.include_router(adhoc_router, prefix="/adhoc")
 app.include_router(dvcomppt_router, prefix="/dvcomppt")
 app.include_router(dvcompbrg_router, prefix="/dvcompbrg")
 app.include_router(dvcompsg2_router, prefix="/dvcompsg2")
-app.include_router(rdvcompdd_router, prefix="/rdvcompdd")
+app.include_router(dvcompdd_router, prefix="/dvcompdd")
 app.include_router(rdvcompft_router, prefix="/rdvcompft")
 if __name__ == "__main__":
     import uvicorn

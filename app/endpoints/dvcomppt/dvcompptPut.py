@@ -20,7 +20,7 @@ async def update_dvcomppt(
         with get_db() as (conn, cursor):
             # First check if record exists
             cursor.execute(
-                "SELECT dvid FROM tst1a.dvcomppt WHERE dvid = %s",
+                "SELECT dvid FROM tst1a.dvcomppt1 WHERE dvid = %s",
                 (dvid,),
             )
             if not cursor.fetchone():
@@ -28,7 +28,7 @@ async def update_dvcomppt(
 
             cursor.execute(
                 """
-                UPDATE tst1a.dvcomppt SET 
+                UPDATE tst1a.dvcomppt1 SET 
                     projectshortname = %s,
                     comptype = %s,
                     compname = %s,

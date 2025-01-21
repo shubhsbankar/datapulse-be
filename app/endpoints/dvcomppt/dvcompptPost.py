@@ -24,13 +24,13 @@ async def create_dvcomppt(
         with get_db() as (conn, cursor):
             cursor.execute(
                 """
-                INSERT INTO tst1a.dvcomppt (
+                INSERT INTO tst1a.dvcomppt1 (
                     projectshortname, comptype,
                     compname, satlnums, satlnum, satlname,
                     satlversion, compshortname,
-                     comments, version,compsubtype,dhname
+                     comments, version,compsubtype,dhname,user_email
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s
                 )
                 """,
                 (
@@ -45,7 +45,8 @@ async def create_dvcomppt(
                     dvcomppt.comments,
                     dvcomppt.version,
                     dvcomppt.compsubtype,
-                    dvcomppt.dhname
+                    dvcomppt.dhname,
+                    current_user["sub"]
                 ),
             )
             conn.commit()

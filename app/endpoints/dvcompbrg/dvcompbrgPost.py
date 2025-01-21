@@ -22,12 +22,12 @@ async def create_dvcompbrg(
         with get_db() as (conn, cursor):
             cursor.execute(
                 """
-                INSERT INTO tst1a.dvcompbrg (
+                INSERT INTO tst1a.dvcompbrg1 (
                     projectshortname, comptype,
                     compname, compsubtype, sqltext,  compshortname,  comments,
-                    version, processtype, datefieldname
+                    version, processtype, datefieldname,user_email
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s
                 )
                 """,
                 (
@@ -41,6 +41,7 @@ async def create_dvcompbrg(
                     dvcompbrg.version,
                     dvcompbrg.processtype,
                     dvcompbrg.datefieldname,
+                    current_user["sub"]
                 ),
             )
             conn.commit()

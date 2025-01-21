@@ -15,8 +15,8 @@ async def get_all_dvcompbrgs(current_user: dict = Depends(auth_dependency)):
                 SELECT 
                     dvid, projectshortname, comptype, compname, compsubtype, sqltext,
                     createdate, compshortname, comments, version, processtype,
-                    datefieldname
-                FROM tst1a.dvcompbrg
+                    datefieldname, user_email
+                FROM tst1a.dvcompbrg1
                 ORDER BY createdate DESC
                 """
             )
@@ -37,6 +37,7 @@ async def get_all_dvcompbrgs(current_user: dict = Depends(auth_dependency)):
                     "version": float(dv[9]) if dv[9] else None,
                     "processtype": dv[10],
                     "datefieldname": dv[11],
+                    "user_email": dv[12]
                 }
                 dvcompbrg_list.append(dvcompbrg_dict)
         return response(200, "DvCompBrgs fetched successfully", data=dvcompbrg_list)
