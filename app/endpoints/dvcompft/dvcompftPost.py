@@ -1,12 +1,12 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.rdvcompft import *
+from app.endpoints.dvcompft import *
 
 
 @router.post("/create")
-async def create_rdvcompft(
-    rdvcompft: RdvCompFtDTO, current_user: dict = Depends(auth_dependency)
+async def create_dvcompft(
+    rdvcompft: DvCompFtDTO, current_user: dict = Depends(auth_dependency)
 ):
     print(rdvcompft)
     try:
@@ -16,12 +16,12 @@ async def create_rdvcompft(
         with get_db() as (conn, cursor):
             cursor.execute(
                 """
-                INSERT INTO tst1a.rdvcompft (
+                INSERT INTO tst1a.dvcompft1 (
                     projectshortname, comptype,
                     compname, compsubtype, compshortname, version,
-                    comments, sqltext, datefieldname
+                    comments, sqltext, datefieldname,user_email
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
                 """,
                 (
@@ -33,19 +33,20 @@ async def create_rdvcompft(
                     rdvcompft.version,
                     rdvcompft.comments,
                     rdvcompft.sqltext,
-                    rdvcompft.datefieldname
+                    rdvcompft.datefieldname,
+                    current_user["sub"]
                 ),
             )
             conn.commit()
 
-            return response(201, "rdvcompft created successfully")
+            return response(201, "dvcompft created successfully")
     except Exception as e:
         return response(400, str(e))
 
 
 @router.post("/test")
-async def test_rdvcompft(
-    rdvcompft: RdvCompFtDTO, current_user: dict = Depends(auth_dependency)
+async def test_dvcompft(
+    rdvcompft: DvCompFtDTO, current_user: dict = Depends(auth_dependency)
 ):
     try:
         if isinstance(current_user, JSONResponse):

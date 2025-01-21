@@ -3,7 +3,7 @@ from typing import Optional, List
 from datetime import datetime
 
 
-class RdvCompFtDTO(BaseModel):
+class DvCompFtDTO(BaseModel):
     rdvid: int | None = None
     projectshortname: str
     comptype: Optional[str]

@@ -1,10 +1,10 @@
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.rdvcompft import router, auth_dependency, get_db, response
+from app.endpoints.dvcompft import router, auth_dependency, get_db, response
 
 
 @router.get("/all")
-async def get_all_rdvcompft(current_user: dict = Depends(auth_dependency)):
+async def get_all_dvcompft(current_user: dict = Depends(auth_dependency)):
     try:
         if isinstance(current_user, JSONResponse):
             return current_user
@@ -13,17 +13,17 @@ async def get_all_rdvcompft(current_user: dict = Depends(auth_dependency)):
             cursor.execute(
                 """
                 SELECT 
-                    rdvid, projectshortname, comptype, compname, compsubtype, 
+                    dvid, projectshortname, comptype, compname, compsubtype, 
                     createdate, compshortname, comments, datefieldname, sqltext,
                     version
-                FROM tst1a.rdvcompft 
+                FROM tst1a.dvcompft1 
                 ORDER BY createdate DESC
                 """
             )
             rdvcompft_list = []
             for rdv in cursor.fetchall():
                 rdvcompft_dict = {
-                    "rdvid": rdv[0],
+                    "dvid": rdv[0],
                     "projectshortname": rdv[1],
                     "comptype": rdv[2],
                     "compname": rdv[3],
@@ -36,6 +36,6 @@ async def get_all_rdvcompft(current_user: dict = Depends(auth_dependency)):
                     "version": float(rdv[10]) if rdv[10] else None,
                 }
                 rdvcompft_list.append(rdvcompft_dict)
-        return response(200, "RdvCompDd fetched successfully", data=rdvcompft_list)
+        return response(200, "DvCompFT fetched successfully", data=rdvcompft_list)
     except Exception as e:
         return response(400, str(e))

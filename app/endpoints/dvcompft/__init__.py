@@ -6,10 +6,10 @@ from fastapi.responses import JSONResponse
 from app.utils.responses import response
 from app.dependencies.auth_dependency import auth_dependency
 from app.db import get_db, get_sqlalchemy_conn
-from app.dtos.rdvcompft_dto import RdvCompFtDTO
+from app.dtos.dvcompft_dto import DvCompFtDTO
 
 router = APIRouter()
 
-from .rdvcompftGet import get_all_rdvcompft
-from .rdvcompftPost import create_rdvcompft, test_rdvcompft, get_table_columns
-from .rdvcompftPut import update_rdvcompft
+from .dvcompftGet import get_all_dvcompft
+from .dvcompftPost import create_dvcompft, test_dvcompft, get_table_columns
+from .dvcompftPut import update_dvcompft
