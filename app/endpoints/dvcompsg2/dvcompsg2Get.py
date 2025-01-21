@@ -13,9 +13,11 @@ async def get_all_dvcompsg2s(current_user: dict = Depends(auth_dependency)):
             cursor.execute(
                 """
                 SELECT 
-                    rdvid, 
-                    comptype, compsubtype,  createdate,  version
-                FROM tst1a.dvcompsg2
+                    dvid, projectshortname, 
+                    comptype, compname, compsubtype, sqltext,
+                    createdate, compshortname,
+                    user_email, comments, version
+                FROM tst1a.dvcompddl1 
                 ORDER BY createdate DESC
                 """
             )
@@ -23,11 +25,17 @@ async def get_all_dvcompsg2s(current_user: dict = Depends(auth_dependency)):
             dvcompsg2_list = []
             for dv in dvcompsg2s:
                 dvcompsg2_dict = {
-                    "rdvid": dv[0],
-                    "comptype": dv[1],
-                    "compsubtype": dv[2],
-                    "createdate": str(dv[3]),
-                    "version": float(dv[4]) if dv[4] else None,
+                    "dvid": dv[0],
+                    "projectshortname": dv[1],
+                    "comptype": dv[2],
+                    "compname": dv[3],
+                    "compsubtype": dv[4],
+                    "sqltext": dv[5],
+                    "createdate": str(dv[6]),
+                    "compshortname": dv[7],
+                    "user_email": dv[8],
+                    "comments": dv[9],
+                    "version": float(dv[10]) if dv[10] else None
                 }
                 dvcompsg2_list.append(dvcompsg2_dict)
         return response(200, "DvCompSg2s fetched successfully", data=dvcompsg2_list)

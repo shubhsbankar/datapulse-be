@@ -20,7 +20,7 @@ async def update_dvcompsg2(
         with get_db() as (conn, cursor):
             # First check if record exists
             cursor.execute(
-                "SELECT rdvid FROM tst1a.dvcompsg2 WHERE rdvid = %s",
+                "SELECT dvid FROM tst1a.dvcompddl1 WHERE dvid = %s",
                 (rdvid,),
             )
             if not cursor.fetchone():
@@ -28,15 +28,25 @@ async def update_dvcompsg2(
 
             cursor.execute(
                 """
-                UPDATE tst1a.dvcompsg2 SET 
+                UPDATE tst1a.dvcompddl1 SET 
+                    projectshortname = %s,
                     comptype = %s,
+                    compname = %s,
                     compsubtype = %s,
+                    sqltext = %s,
+                    compshortname = %s,
+                    comments = %s,
                     version = %s,
-                WHERE rdvid = %s
+                WHERE dvid = %s
                 """,
                 (
+                    dvcompsg2.projectshortname,
                     dvcompsg2.comptype,
+                    dvcompsg2.compname,
                     dvcompsg2.compsubtype,
+                    dvcompsg2.sqltext,
+                    dvcompsg2.compshortname,
+                    dvcompsg2.comments,
                     dvcompsg2.version,
                     rdvid,
                 ),

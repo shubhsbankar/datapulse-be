@@ -23,19 +23,26 @@ async def create_dvcompsg2(
 
         with get_db() as (conn, cursor):
             cursor.execute(
-                """
-                INSERT INTO tst1a.dvcompsg2 (
-                    comptype,
-                    compsubtype, version
+               """
+                INSERT INTO tst1a.dvcompddl1 (
+                    projectshortname, comptype,
+                    compname, compsubtype, sqltext, 
+                    compshortname, user_email, comments,
+                    version
                 ) VALUES (
-                    %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
                 """,
                 (
+                    dvcompsg2.projectshortname,
                     dvcompsg2.comptype,
+                    dvcompsg2.compname,
                     dvcompsg2.compsubtype,
+                    dvcompsg2.sqltext,
+                    dvcompsg2.compshortname,
+                    current_user["sub"],
+                    dvcompsg2.comments,
                     dvcompsg2.version,
-
                 ),
             )
             conn.commit()
