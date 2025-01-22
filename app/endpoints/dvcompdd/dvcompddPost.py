@@ -57,7 +57,7 @@ async def test_dvcompdd(
             if value is not None:
                 print(f"{field}: {value}")
 
-        filter_query = rdvcompdd["sqlText"];
+        filter_query = rdvcompdd.sqltext;
         conn = get_sqlalchemy_conn()
         df = pd.read_sql(filter_query, conn)
         print(df)
@@ -93,7 +93,7 @@ async def get_table_columns(data: dict, current_user: dict = Depends(auth_depend
         with get_db() as (conn, cursor):
             # Use pandas to get column information
             # query = f"SELECT * FROM tst1a.datasets"
-            query = data["sqlText"];
+            query = data["sqltext"];
             print("query : ", query)
             df = pd.read_sql(query, conn)
             columns = df.columns.tolist()
