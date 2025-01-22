@@ -93,7 +93,7 @@ async def get_table_columns(data: dict, current_user: dict = Depends(auth_depend
         with get_db() as (conn, cursor):
             # Use pandas to get column information
             # query = f"SELECT * FROM tst1a.datasets"
-            query = data["sqltext"];
+            query = data['sqltext']
             print("query : ", query)
             df = pd.read_sql(query, conn)
             columns = df.columns.tolist()
