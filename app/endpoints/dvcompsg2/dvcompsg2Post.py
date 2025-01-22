@@ -10,7 +10,9 @@ from app.endpoints.dvcompsg2 import (
 from fastapi.encoders import jsonable_encoder
 from app.db import get_sqlalchemy_conn
 import pandas as pd
-
+from sqlalchemy.exc import SQLAlchemyError
+from typing import Any
+from sqlalchemy.sql import text
 
 @router.post("/create")
 async def create_dvcompsg2(
@@ -55,46 +57,64 @@ async def create_dvcompsg2(
 @router.post("/test")
 async def test_dvcompsg2(
     dvcompsg2: DvCompSg2DTO, current_user: dict = Depends(auth_dependency)
-):
-    print(dvcompsg2)
-    # print("Test successful: DvCompSg1 configuration is valid")
-    # return response(200, "DvCompSg1 test successful")
-    # return (400, "Gahalat sql likhi hai")
+) -> Any:
     try:
+        # Check if the `current_user` is a JSONResponse
         if isinstance(current_user, JSONResponse):
             return current_user
 
-        # Print non-None fields for testing
+        # Print non-None fields from `dvcompsg2` for debugging
         for field, value in dvcompsg2.dict().items():
             if value is not None:
                 print(f"{field}: {value}")
-                
-        filter_query = f"SELECT * FROM tst1a.datasets"
+
+        # Retrieve the SQL query text
+        filter_query = dvcompsg2.sqltext.strip()
+        print("filter_query:", filter_query)
+
+        # Establish SQLAlchemy connection
         conn = get_sqlalchemy_conn()
-        df = pd.read_sql(filter_query, conn)
-        print(df)
-        if df.empty:
-            return response(404, "Dataset not found.")
-        conn.commit()
 
-        headers = jsonable_encoder(df.columns.tolist())
-        rows = jsonable_encoder(df.values.tolist())
-        if df.empty:
-            return response(404, "Dataset not found.")
-        conn.commit()
-        # return response(
-        #     200, "Test connection successful!", data={"error": "Gahalat sql likhi hai"}
-        # )
-        return response(
-            200, "Test connection successful!", data={"headers": headers, "rows": rows}
-        )
+        # Convert query to lowercase for validation
+        query_lower = filter_query.lower()
 
-        # print("\n\nTest successful: DvCompSg1 configuration is valid\n\n")
-        # return response(200, "DvCompSg1 test successful")
+        # Handle SELECT queries
+        if query_lower.startswith("select"):
+            # Execute the query and fetch results into a Pandas DataFrame
+            df = pd.read_sql(filter_query, conn)
+            print("Query Result DataFrame:\n", df)
 
+            if df.empty:
+                return response(404, "Dataset not found.")
+
+            # Prepare headers and rows for the response
+            headers = jsonable_encoder(df.columns.tolist())
+            rows = jsonable_encoder(df.values.tolist())
+
+            return response(
+                200,
+                "Test connection successful!",
+                data={"headers": headers, "rows": rows},
+            )
+
+        # Handle CREATE queries
+        elif query_lower.startswith("create"):
+            # Execute the CREATE statement
+            with conn.begin():  # Use a transaction to execute the CREATE statement
+                conn.execute(text(filter_query))
+
+            return response(201, "Table or schema created successfully.",data = {})
+
+        else:
+            # If query is neither SELECT nor CREATE, return an error response
+            return response(400, "Only SELECT and CREATE queries are allowed.")
+
+    except SQLAlchemyError as e:
+        # Handle SQLAlchemy-related exceptions
+        return response(400, f"Database error: {str(e)}")
     except Exception as e:
-        return response(400, str(e))
-
+        # Handle other exceptions
+        return response(400, f"Error: {str(e)}")
     
 @router.post("/columns")
 async def get_columns():

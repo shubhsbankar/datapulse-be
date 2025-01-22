@@ -57,7 +57,7 @@ async def test_dvcompdd(
             if value is not None:
                 print(f"{field}: {value}")
 
-        filter_query = f"SELECT * FROM tst1a.users_latest"
+        filter_query = rdvcompdd["sqlText"];
         conn = get_sqlalchemy_conn()
         df = pd.read_sql(filter_query, conn)
         print(df)
@@ -88,13 +88,15 @@ async def get_table_columns(data: dict, current_user: dict = Depends(auth_depend
         print("data:\n\n")
         for field, value in data.items():
             print(f"{field}: {value}")
+            
 
         with get_db() as (conn, cursor):
             # Use pandas to get column information
-            query = f"SELECT * FROM tst1a.datasets"
+            # query = f"SELECT * FROM tst1a.datasets"
+            query = data["sqlText"];
             df = pd.read_sql(query, conn)
             columns = df.columns.tolist()
-
+            print("columns : ", columns)
             return response(200, "Columns fetched successfully", data=columns)
     except Exception as e:
         return response(400, str(e))

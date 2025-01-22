@@ -66,7 +66,7 @@ async def test_dvcompbrg(
                 print(f"{field}: {value}")
                 
                 
-        filter_query = f"SELECT * FROM tst1a.users_latest"
+        filter_query = dvcompbrg["sqlText"]
         conn = get_sqlalchemy_conn()
         df = pd.read_sql(filter_query, conn)
         print(df)
