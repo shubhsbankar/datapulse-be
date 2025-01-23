@@ -10,7 +10,7 @@ from app.endpoints.dvcompbrg import (
 )
 from app.db import get_sqlalchemy_conn
 from fastapi.encoders import jsonable_encoder
-
+from sqlalchemy.exc import SQLAlchemyError
 
 @router.post("/create")
 async def create_dvcompbrg(
@@ -92,18 +92,28 @@ async def test_dvcompbrg(
     except Exception as e:
         return response(400, str(e))
     
-@router.post("/columns")
-async def get_dvcompbrg_columns():
+@router.post("/get-columns")
+async def get_table_columns(data: dict, current_user: dict = Depends(auth_dependency)):
     try:
-        filter_query = f"SELECT * FROM tst1a.datastores"
-        conn = get_sqlalchemy_conn()
-        df = pd.read_sql(filter_query, conn)
-        if df.empty:
-            return response(404, "Dataset not found.")
-        conn.commit()
+        if isinstance(current_user, JSONResponse):
+            return current_user
+        print("data:\n\n")
+        for field, value in data.items():
+            print(f"{field}: {value}")
+            
 
-        headers = jsonable_encoder(df.columns.tolist())
-        return response(200, "Columns fetched successfully", data=headers)
-
+        with get_db() as (conn, cursor):
+            # Use pandas to get column information
+            # query = f"SELECT * FROM tst1a.datasets"
+            query = data['sqltext']
+            print("query : ", query)
+            df = pd.read_sql(query, conn)
+            columns = df.columns.tolist()
+            print("columns : ", columns)
+            return response(200, "Columns fetched successfully", data=columns)
+            
+    except SQLAlchemyError as e:
+        # Handle SQLAlchemy-related exceptions
+        return response(400, f"Database error: {str(e)}")
     except Exception as e:
         return response(400, str(e))

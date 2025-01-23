@@ -8,6 +8,6 @@ from app.dtos.dvcompbrg_dto import DvCompBrgDTO
 
 router = APIRouter()
 
-from .dvcompbrgPost import test_dvcompbrg, create_dvcompbrg
+from .dvcompbrgPost import test_dvcompbrg, create_dvcompbrg, get_table_columns
 from .dvcompbrgGet import get_all_dvcompbrgs
 from .dvcompbrgPut import update_dvcompbrg

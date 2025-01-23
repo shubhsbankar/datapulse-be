@@ -2,7 +2,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi import Depends
 from fastapi.responses import JSONResponse
 from app.endpoints.dvcompft import *
-
+from sqlalchemy.exc import SQLAlchemyError
 
 @router.post("/create")
 async def create_dvcompft(
@@ -88,13 +88,20 @@ async def get_table_columns(data: dict, current_user: dict = Depends(auth_depend
         print("data:\n\n")
         for field, value in data.items():
             print(f"{field}: {value}")
+            
 
         with get_db() as (conn, cursor):
             # Use pandas to get column information
-            query = f"SELECT * FROM tst1a.datasets"
+            # query = f"SELECT * FROM tst1a.datasets"
+            query = data['sqltext']
+            print("query : ", query)
             df = pd.read_sql(query, conn)
             columns = df.columns.tolist()
-
+            print("columns : ", columns)
             return response(200, "Columns fetched successfully", data=columns)
+            
+    except SQLAlchemyError as e:
+        # Handle SQLAlchemy-related exceptions
+        return response(400, f"Database error: {str(e)}")
     except Exception as e:
         return response(400, str(e))
