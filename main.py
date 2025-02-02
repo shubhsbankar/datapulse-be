@@ -28,7 +28,7 @@ from app.endpoints.adhoc import router as adhoc_router
 from app.endpoints.dvcompsg2 import router as dvcompsg2_router
 from app.endpoints.dvcompdd import router as dvcompdd_router
 from app.endpoints.dvcompft import router as dvcompft_router
-
+from app.endpoints.landingdataset import router as landingdataset_router
 import app.db as db_init
 
 dotenv.load_dotenv()
@@ -71,6 +71,8 @@ app.include_router(dvcompbrg_router, prefix="/dvcompbrg")
 app.include_router(dvcompsg2_router, prefix="/dvcompsg2")
 app.include_router(dvcompdd_router, prefix="/dvcompdd")
 app.include_router(dvcompft_router, prefix="/dvcompft")
+app.include_router(landingdataset_router, prefix="/landingdataset")
+
 if __name__ == "__main__":
     import uvicorn
 

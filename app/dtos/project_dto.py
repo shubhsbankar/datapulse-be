@@ -1,4 +1,12 @@
+from enum import Enum
+from typing import Optional
 from pydantic import BaseModel
+
+
+class SourceType(str, Enum):
+    GCS = "GCS"
+    AWS_S3 = "AWSS3"
+    Local = "Local"
 
 
 class ProjectBase(BaseModel):
@@ -6,6 +14,10 @@ class ProjectBase(BaseModel):
     projectname: str
     coname: str
     datastoreshortname: str
+    sourcetype: SourceType
+    credentials_file: Optional[str] = None  # For GCS, null if not provided
+    accesskey: Optional[str] = None       # For AWS S3, null if not provided  
+    secretkey: Optional[str] = None       # For AWS S3, null if not provided
 
 
 class Project(ProjectBase):

@@ -21,7 +21,10 @@ async def create_project(
                 return response(400, "Project shortname already exists")
 
             cursor.execute(
-                "INSERT INTO tst1a.projects (projectshortname, projectname, user_email, coname, datastoreshortname, groupname) VALUES (%s, %s, %s, %s, %s, %s)",
+                """INSERT INTO tst1a.projects 
+                (projectshortname, projectname, user_email, coname, datastoreshortname, 
+                groupname, sourcetype, credentials_file, accesskey, secretkey) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                 (
                     project.projectshortname,
                     project.projectname,
@@ -29,6 +32,10 @@ async def create_project(
                     project.coname,
                     project.datastoreshortname,
                     current_user["groupname"],
+                    project.sourcetype,
+                    project.credentials_file,
+                    project.accesskey,
+                    project.secretkey,
                 ),
             )
             conn.commit()

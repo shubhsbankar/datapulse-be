@@ -10,6 +10,6 @@ from app.dtos.rdvcompdh_dto import RdvCompDhDTO
 
 router = APIRouter()
 
-from .rdvcompdhGet import get_all_rdvcompdh
+from .rdvcompdhGet import get_all_rdvcompdh, get_filtered_rdvcompdh
 from .rdvcompdhPost import create_rdvcompdh, test_rdvcompdh, get_table_columns
 from .rdvcompdhPut import update_rdvcompdh

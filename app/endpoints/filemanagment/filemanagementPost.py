@@ -146,6 +146,7 @@ async def upload_python_files(
 async def upload_csv_files(
     project_shortname: str = Form(...),
     files: List[UploadFile] = File(...),
+    table_name: str = Form(None),
     timestamp: str = Form(None),
 ):
     try:
@@ -158,7 +159,8 @@ async def upload_csv_files(
         print(f"CSV Files: {[f.filename for f in files]}")
         print(f"Folder Path: {csv_path}")
         print(f"Project Shortname: {project_shortname}")
-        print(f"Table Name: {timestamp}")
+        print(f"Time stamp: {timestamp}")
+        print(f"Table name: {table_name}")
 
         saved_files = []
         for file in files:
