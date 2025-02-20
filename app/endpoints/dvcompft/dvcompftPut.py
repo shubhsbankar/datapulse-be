@@ -36,7 +36,12 @@ async def update_dvcompft(
                     compshortname = %s,
                     version = %s,
                     comments = %s,
-                    sqltext = %s
+                    sqltext = %s,
+                    ddnums = %s,
+                    ddnum = %s,
+                    ddname = %s,
+                    ddversion = %s,
+                    bkfields = %s
                 WHERE dvid = %s
                 """,
                 (
@@ -48,6 +53,11 @@ async def update_dvcompft(
                     rdvcompft.version,
                     rdvcompft.comments,
                     rdvcompft.sqltext,
+                    rdvcompft.ddnums,
+                    rdvcompft.ddnum,
+                    rdvcompft.ddname,
+                    rdvcompft.ddversion,
+                    rdvcompft.bkfields,
                     dvid,
                 ),
             )

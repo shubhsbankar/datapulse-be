@@ -1,6 +1,6 @@
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.dvcompbrg import (
+from app.endpoints.dvcompbrg2 import (
     router,
     auth_dependency,
     get_db,
@@ -10,7 +10,7 @@ from app.endpoints.dvcompbrg import (
 
 
 @router.put("/update/{dvid}")
-async def update_dvcompbrg(
+async def update_dvcompbrg2(
     dvid: int, dvcompbrg: DvCompBrgDTO, current_user: dict = Depends(auth_dependency)
 ):
     try:
@@ -39,7 +39,16 @@ async def update_dvcompbrg(
                     version = %s,
                     processtype = %s,
                     datefieldname = %s,
-                    bkfields = %s
+                    hubnums = %s,
+                    hubnum = %s,
+                    hubname = %s,
+                    hubversion = %s,
+                    bkfields = %s,
+                    lnknums = %s,
+                    lnknum = %s,
+                    lnkname = %s,
+                    lnkversion = %s,
+                    lnkbkfields = %s
                 WHERE dvid = %s
                 """,
                 (
@@ -53,7 +62,16 @@ async def update_dvcompbrg(
                     dvcompbrg.version,
                     dvcompbrg.processtype,
                     dvcompbrg.datefieldname,
+                    dvcompbrg.hubnums,
+                    dvcompbrg.hubnum,
+                    dvcompbrg.hubname,
+                    dvcompbrg.hubversion,
                     dvcompbrg.bkfields,
+                    dvcompbrg.lnknums,
+                    dvcompbrg.lnknum,
+                    dvcompbrg.lnkname,
+                    dvcompbrg.lnkversion,
+                    dvcompbrg.lnkbkfields,
                     dvid,
                 ),
             )

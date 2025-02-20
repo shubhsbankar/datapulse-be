@@ -19,6 +19,7 @@ from app.endpoints.rdvcompdl import router as rdvcompdl_router
 from app.endpoints.rdvcompds import router as rdvcompds_router
 from app.endpoints.dvcomppt import router as dvcomppt_router
 from app.endpoints.dvcompbrg import router as dvcompbrg_router
+from app.endpoints.dvcompbrg2 import router as dvcompbrg2_router
 from app.endpoints.rs import router as rs_router
 from app.endpoints.rt import router as rt_router
 from app.endpoints.str import router as str_router
@@ -68,6 +69,7 @@ app.include_router(filemanagment_router, prefix="/filemanagment")
 app.include_router(adhoc_router, prefix="/adhoc")
 app.include_router(dvcomppt_router, prefix="/dvcomppt")
 app.include_router(dvcompbrg_router, prefix="/dvcompbrg")
+app.include_router(dvcompbrg2_router, prefix="/dvcompbrg2")
 app.include_router(dvcompsg2_router, prefix="/dvcompsg2")
 app.include_router(dvcompdd_router, prefix="/dvcompdd")
 app.include_router(dvcompft_router, prefix="/dvcompft")

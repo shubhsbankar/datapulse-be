@@ -1,95 +1,109 @@
-from fastapi.encoders import jsonable_encoder
+import pandas as pd
 from fastapi import Depends
 from fastapi.responses import JSONResponse
-from app.endpoints.dvcompft import *
+from app.endpoints.dvcompbrg2 import (
+    router,
+    auth_dependency,
+    get_db,
+    response,
+    DvCompBrgDTO,
+)
+from app.db import get_sqlalchemy_conn
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.exc import SQLAlchemyError
 
 @router.post("/create")
-async def create_dvcompft(
-    rdvcompft: DvCompFtDTO, current_user: dict = Depends(auth_dependency)
+async def create_dvcompbrg2(
+    dvcompbrg: DvCompBrgDTO, current_user: dict = Depends(auth_dependency)
 ):
-    print(rdvcompft)
     try:
         if isinstance(current_user, JSONResponse):
             return current_user
-        # >> compshortname is not getting inserted, its the concat of projectshortname, dpname, dsname, compname, version
         with get_db() as (conn, cursor):
             cursor.execute(
                 """
-                INSERT INTO tst1a.dvcompft1 (
+                INSERT INTO tst1a.dvcompbrg1 (
                     projectshortname, comptype,
-                    compname, compsubtype, compshortname, version,
-                    comments, sqltext, datefieldname,user_email,
-                    ddnums, ddnum, ddname, ddversion, bkfields
+                    compname, compsubtype, sqltext,  compshortname,  comments,
+                    version, processtype, datefieldname,user_email,hubnums,hubnum,hubname,
+                    hubversion,bkfields,lnknums,lnknum,lnkname,
+                    lnkversion,lnkbkfields
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
                 """,
                 (
-                    rdvcompft.projectshortname,
-                    rdvcompft.comptype,
-                    rdvcompft.compname,
-                    rdvcompft.compsubtype,
-                    rdvcompft.compshortname,
-                    rdvcompft.version,
-                    rdvcompft.comments,
-                    rdvcompft.sqltext,
-                    rdvcompft.datefieldname,
+                    dvcompbrg.projectshortname,
+                    dvcompbrg.comptype,
+                    dvcompbrg.compname,
+                    dvcompbrg.compsubtype,
+                    dvcompbrg.sqltext,
+                    dvcompbrg.compshortname,
+                    dvcompbrg.comments,
+                    dvcompbrg.version,
+                    dvcompbrg.processtype,
+                    dvcompbrg.datefieldname,
                     current_user["sub"],
-                    rdvcompft.ddnums,
-                    rdvcompft.ddnum,
-                    rdvcompft.ddname,
-                    rdvcompft.ddversion,
-                    rdvcompft.bkfields
+                    dvcompbrg.hubnums,
+                    dvcompbrg.hubnum,
+                    dvcompbrg.hubname,
+                    dvcompbrg.hubversion,
+                    dvcompbrg.bkfields,
+                    dvcompbrg.lnknums,
+                    dvcompbrg.lnknum,
+                    dvcompbrg.lnkname,
+                    dvcompbrg.lnkversion,
+                    dvcompbrg.lnkbkfields
                 ),
             )
             conn.commit()
 
-            return response(201, "dvcompft created successfully")
+            return response(201, "DvCompBrg created successfully")
     except Exception as e:
         return response(400, str(e))
 
 
 @router.post("/test")
-async def test_dvcompft(
-    rdvcompft: DvCompFtDTO, current_user: dict = Depends(auth_dependency)
+async def test_dvcompbrg2(
+    dvcompbrg: DvCompBrgDTO, current_user: dict = Depends(auth_dependency)
 ):
+    print(dvcompbrg)
     try:
-        print("rdvcompft : ", rdvcompft)
         if isinstance(current_user, JSONResponse):
             return current_user
 
         # Print non-None fields for testing
-        for field, value in rdvcompft.dict().items():
+        for field, value in dvcompbrg.dict().items():
             if value is not None:
                 print(f"{field}: {value}")
-
-        filter_query = rdvcompft.sqltext
+                
+                
+        filter_query = dvcompbrg.sqltext;
         conn = get_sqlalchemy_conn()
         df = pd.read_sql(filter_query, conn)
         print(df)
         if df.empty:
             return response(404, "Dataset not found.")
         conn.commit()
-        # Replace NaN values with None before encoding
         df = df.replace({float('nan'): None})
-        print("df : ", df)
-        
         headers = jsonable_encoder(df.columns.tolist())
         rows = jsonable_encoder(df.values.tolist())
         if df.empty:
             return response(404, "Dataset not found.")
         conn.commit()
+        # return response(
+        #     200, "Test connection successful!", data={"error": "Gahalat sql likhi hai"}
+        # )
         return response(
             200, "Test connection successful!", data={"headers": headers, "rows": rows}
         )
-        # print("\n\nTest successful: RdvCompDh configuration is valid\n\n")
-        # return response(200, "RdvCompDh test successful")
+
+        # print("\n\nTest successful: DvBojSg1 configuration is valid\n\n")
+        # return response(200, "DvBojSg1 test successful")
 
     except Exception as e:
         return response(400, str(e))
-
-
+    
 @router.post("/get-columns")
 async def get_table_columns(data: dict, current_user: dict = Depends(auth_dependency)):
     try:

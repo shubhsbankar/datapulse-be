@@ -25,9 +25,9 @@ async def create_dvcompbrg(
                 INSERT INTO tst1a.dvcompbrg1 (
                     projectshortname, comptype,
                     compname, compsubtype, sqltext,  compshortname,  comments,
-                    version, processtype, datefieldname,user_email
+                    version, processtype, datefieldname,user_email,bkfields
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
                 )
                 """,
                 (
@@ -41,7 +41,8 @@ async def create_dvcompbrg(
                     dvcompbrg.version,
                     dvcompbrg.processtype,
                     dvcompbrg.datefieldname,
-                    current_user["sub"]
+                    current_user["sub"],
+                    dvcompbrg.bkfields
                 ),
             )
             conn.commit()
@@ -73,7 +74,7 @@ async def test_dvcompbrg(
         if df.empty:
             return response(404, "Dataset not found.")
         conn.commit()
-
+        df = df.replace({float('nan'): None})
         headers = jsonable_encoder(df.columns.tolist())
         rows = jsonable_encoder(df.values.tolist())
         if df.empty:

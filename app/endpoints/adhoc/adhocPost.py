@@ -13,7 +13,10 @@ class FormData(BaseModel):
 @router.post("/execute")
 async def execute(data: FormData):
     try:
-        print(data)
+        print("py_id : ", data.py_id)
+        print("execution_date : ", data.execution_date)
+        print("input_1 : ", data.input_1)
+        print("input_2 : ", data.input_2)
         return response(200, "Adhoc Execution Successful")
     except Exception as e:
         return response(400, str(e))
