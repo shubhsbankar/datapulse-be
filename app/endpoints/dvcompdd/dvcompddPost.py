@@ -64,6 +64,7 @@ async def test_dvcompdd(
         if df.empty:
             return response(404, "Dataset not found.")
         conn.commit()
+        df = df.replace({float('nan'): None})
 
         headers = jsonable_encoder(df.columns.tolist())
         rows = jsonable_encoder(df.values.tolist())

@@ -83,6 +83,7 @@ async def test_dvcompsg2(
             # Execute the query and fetch results into a Pandas DataFrame
             df = pd.read_sql(filter_query, conn)
             print("Query Result DataFrame:\n", df)
+            df = df.replace({float('nan'): None})
 
             if df.empty:
                 return response(404, "Dataset not found.")
