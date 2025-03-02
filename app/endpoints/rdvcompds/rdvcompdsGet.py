@@ -16,7 +16,8 @@ async def get_all_rdvcompds(current_user: dict = Depends(auth_dependency)):
                     rdvid, projectshortname, dpname, dsname,
                     comptype, satlname, satlattr, assoccomptype,
                     assoccompname, tenantid, bkcarea, createdate,
-                    user_email, compshortname, version, partsnum, parts
+                    user_email, compshortname, version, partsnum, parts,
+                    datefieldname
                 FROM tst1a.rdvcompds 
                 ORDER BY createdate DESC
                 """
@@ -40,7 +41,8 @@ async def get_all_rdvcompds(current_user: dict = Depends(auth_dependency)):
                     "compshortname": rdv[13],
                     "version": float(rdv[14]) if rdv[14] else None,
                     "partsnum": rdv[15],
-                    "parts": rdv[16]
+                    "parts": rdv[16],
+                    "datefieldname": rdv[17]
                 }
                 rdvcompds_list.append(rdvcompds_dict)
         return response(200, "RdvCompDs fetched successfully", data=rdvcompds_list)

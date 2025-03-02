@@ -40,7 +40,8 @@ async def update_rdvcompds(
                     tenantid = %s,
                     bkcarea = %s,
                     compshortname = %s,
-                    version = %s
+                    version = %s,
+                    datefieldname = %s
                 WHERE rdvid = %s
                 """,
                 (
@@ -56,6 +57,7 @@ async def update_rdvcompds(
                     rdvcompds.bkcarea,
                     rdvcompds.compshortname,
                     rdvcompds.version,
+                    rdvcompds.datefieldname,
                     rdvid,
                 ),
             )

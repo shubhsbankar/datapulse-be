@@ -17,7 +17,8 @@ class DvCompPtDTO(BaseModel):
     compshortname: str | None = None
     comments: str | None = None
     version: float | None = None
-    dhname: str
+    dhname: str | None = None
+    dlname: str | None = None
 
     class Config:
         from_attributes = True

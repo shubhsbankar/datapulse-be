@@ -22,6 +22,7 @@ class RdvCompDsDTO(BaseModel):
     partsnum: Optional[int] = None
     # parts is supposed to be a list of strings, but it is not defined in the DTO.
     parts: Optional[List[str]] = None
+    datefieldname: Optional[str] = None
 
     class Config:
         from_attributes = True

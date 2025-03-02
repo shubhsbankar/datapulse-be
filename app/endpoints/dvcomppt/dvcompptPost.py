@@ -28,9 +28,9 @@ async def create_dvcomppt(
                     projectshortname, comptype,
                     compname, satlnums, satlnum, satlname,
                     satlversion, compshortname,
-                     comments, version,compsubtype,dhname,user_email
+                     comments, version,compsubtype,dhname,user_email,dlname
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s, %s
                 )
                 """,
                 (
@@ -46,7 +46,8 @@ async def create_dvcomppt(
                     dvcomppt.version,
                     dvcomppt.compsubtype,
                     dvcomppt.dhname,
-                    current_user["sub"]
+                    current_user["sub"],
+                    dvcomppt.dlname
                 ),
             )
             conn.commit()

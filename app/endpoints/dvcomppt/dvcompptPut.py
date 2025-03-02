@@ -41,6 +41,7 @@ async def update_dvcomppt(
                     satlnum = %s,
                     satlversion = %s,
                     satlname = %s,
+                    dlname = %s
                 WHERE dvid = %s
                 """,
                 (
@@ -56,6 +57,7 @@ async def update_dvcomppt(
                     dvcomppt.satlnum,
                     dvcomppt.satlversion,
                     dvcomppt.satlname,
+                    dvcomppt.dlname,
                     dvid,
                 ),
             )

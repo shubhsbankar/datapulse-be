@@ -49,10 +49,10 @@ async def create_rdvcompds(
                     projectshortname, dpname, dsname, comptype,
                     satlname, satlattr, assoccomptype, assoccompname,
                     tenantid, bkcarea, user_email, compshortname,
-                    version, partsnum, parts
+                    version, partsnum, parts, datefieldname
                 ) VALUES (
                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s
                 )
                 """,
                 (
@@ -73,6 +73,7 @@ async def create_rdvcompds(
                     rdvcompds.version,
                     rdvcompds.partsnum,
                     rdvcompds.parts,
+                    rdvcompds.datefieldname
                 ),
             )
             conn.commit()

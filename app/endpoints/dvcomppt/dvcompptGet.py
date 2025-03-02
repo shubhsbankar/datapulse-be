@@ -16,7 +16,7 @@ async def get_all_dvcomppts(current_user: dict = Depends(auth_dependency)):
                     dvid, projectshortname, comptype, compname, compsubtype, 
                     createdate, compshortname,
                     user_email, comments, version, 
-                    dhname,satlnums,satlnum,satlname,satlversion
+                    dhname,satlnums,satlnum,satlname,satlversion,dlname
                 FROM tst1a.dvcomppt1 
                 ORDER BY createdate DESC
                 """
@@ -41,7 +41,7 @@ async def get_all_dvcomppts(current_user: dict = Depends(auth_dependency)):
                     "satlnum":dv[12],
                     "satlname": dv[13],
                     "satlversion":float(dv[14]) if dv[14] else None,
-
+                    "dlname": dv[15]
                 }
                 dvcomppt_list.append(dvcomppt_dict)
         return response(200, "DvCompPts fetched successfully", data=dvcomppt_list)
