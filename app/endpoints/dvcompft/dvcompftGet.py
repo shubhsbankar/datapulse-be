@@ -15,7 +15,7 @@ async def get_all_dvcompft(current_user: dict = Depends(auth_dependency)):
                 SELECT 
                     dvid, projectshortname, comptype, compname, compsubtype, 
                     createdate, compshortname, comments, datefieldname, sqltext,
-                    version, ddnums, ddnum, ddname, ddversion, bkfields
+                    version, ddnums, ddnum, ddname, ddversion, bkfields, user_email
                 FROM tst1a.dvcompft1 
                 ORDER BY createdate DESC
                 """
@@ -38,7 +38,8 @@ async def get_all_dvcompft(current_user: dict = Depends(auth_dependency)):
                     "ddnum": rdv[12],
                     "ddname": rdv[13],
                     "ddversion": float(rdv[14]) if rdv[14] else None,
-                    "bkfields": rdv[15]
+                    "bkfields": rdv[15],
+                    "user_email": rdv[16]
                 }
                 rdvcompft_list.append(rdvcompft_dict)
         return response(200, "DvCompFT fetched successfully", data=rdvcompft_list)

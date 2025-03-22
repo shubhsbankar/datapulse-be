@@ -20,7 +20,7 @@ class DvCompFtDTO(BaseModel):
     ddname: str | None = None
     ddversion: Optional[float] = None
     bkfields: Optional[List[str]] = None
-    
+    user_email: Optional[str] = None
 
     class Config:
         from_attributes = True

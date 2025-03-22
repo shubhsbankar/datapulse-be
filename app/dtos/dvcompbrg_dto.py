@@ -26,6 +26,7 @@ class DvCompBrgDTO(BaseModel):
     lnkname: str | None = None
     lnkversion: Optional[float] = None
     lnkbkfields: Optional[List[str]] = None
+    user_email: Optional[str] = None
 
     class Config:
         from_attributes = True

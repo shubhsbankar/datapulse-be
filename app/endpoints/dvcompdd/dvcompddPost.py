@@ -19,9 +19,9 @@ async def create_dvcompdd(
                 INSERT INTO tst1a.dvcompdd1 (
                     projectshortname, comptype,
                     compname, compsubtype, bkfields, compshortname, version,
-                    comments, sqltext, datefieldname
+                    comments, sqltext, datefieldname, user_email
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s,%s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
                 )
                 """,
                 (
@@ -34,7 +34,8 @@ async def create_dvcompdd(
                     rdvcompdd.version,
                     rdvcompdd.comments,
                     rdvcompdd.sqltext,
-                    rdvcompdd.datefieldname
+                    rdvcompdd.datefieldname,
+                    current_user["sub"],
                 ),
             )
             conn.commit()

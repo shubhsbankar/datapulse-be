@@ -15,7 +15,7 @@ async def get_all_dvcompdd(current_user: dict = Depends(auth_dependency)):
                 SELECT 
                     dvid, projectshortname, comptype, compname, compsubtype, bkfields,
                     createdate, compshortname, comments, datefieldname, sqltext,
-                    version
+                    version, user_email
                 FROM tst1a.dvcompdd1 
                 ORDER BY createdate DESC
                 """
@@ -35,6 +35,7 @@ async def get_all_dvcompdd(current_user: dict = Depends(auth_dependency)):
                     "datefieldname" : rdv[9], 
                     "sqltext" : rdv[10],
                     "version": float(rdv[11]) if rdv[11] else None,
+                    "user_email": rdv[12]
                 }
                 rdvcompdd_list.append(rdvcompdd_dict)
         return response(200, "DvCompDd fetched successfully", data=rdvcompdd_list)

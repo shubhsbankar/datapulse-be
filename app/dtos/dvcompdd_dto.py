@@ -16,6 +16,7 @@ class DvCompDdDTO(BaseModel):
     comments: str | None = None
     datefieldname: Optional[str] = None
     sqltext: Optional[str] = None
+    user_email: Optional[str] = None
     
 
     class Config:

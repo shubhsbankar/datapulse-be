@@ -19,6 +19,7 @@ class DvCompPtDTO(BaseModel):
     version: float | None = None
     dhname: str | None = None
     dlname: str | None = None
+    user_email: Optional[str] = None
 
     class Config:
         from_attributes = True
